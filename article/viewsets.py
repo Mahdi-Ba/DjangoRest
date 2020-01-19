@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -9,6 +9,11 @@ from . import serializers
 
 # Create your views here.
 class ArticleViewset(viewsets.ModelViewSet):
+    # class ArticleViewset(mixins.ListModelMixin,
+    #                      mixins.RetrieveModelMixin,
+    #                      mixins.UpdateModelMixin,
+    #                      mixins.DestroyModelMixin,
+    #                      viewsets.GenericViewSet):
     queryset = models.Article.objects.all()
     serializer_class = serializers.ArticleSerializer
     filter_backends = (SearchFilter, OrderingFilter)
@@ -21,3 +26,8 @@ class ArticleViewset(viewsets.ModelViewSet):
             return Response(test)
         else:
             return Response("by")
+
+
+class WriterViewset(viewsets.ModelViewSet):
+    queryset = models.Writer.objects.all()
+    serializer_class = serializers.WriterSerializer
